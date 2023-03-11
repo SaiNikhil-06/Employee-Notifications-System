@@ -27,7 +27,7 @@ The application should be running on `https:\\localhost:80 `
 
 ## Backend 
 
-Go the `newsnotifications` directory. Then run the below commands:
+Go the `empnotifications` directory. Then run the below commands:
 
 ```
 docker-compose up
