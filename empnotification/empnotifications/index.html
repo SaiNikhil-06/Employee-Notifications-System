@@ -30,7 +30,9 @@
 
     <style>
     html,body {
-        background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.paldesk.com%2Fan-introduction-to-people-management%2F&psig=AOvVaw0N4_ZJXHbY0LeElUywF9_x&ust=1677810092634000&source=images&cd=vfe&ved=0CA0QjhxqFwoTCPim5ueXvP0CFQAAAAAdAAAAABAJ');
+        background-image: url('https://www.paldesk.com/wp-content/uploads/2021/03/An-Introduction-to-People-Management.png');
+        background-repeat: no-repeat;
+        background-size: cover;
         font-family: Helvetica, Arial, sans-serif;
 
         margin: 0;
@@ -120,15 +122,17 @@
 </head>
 <body>
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="background-color: rgb(139, 133, 133);">
-    <div class="container px-5">
-        <h2><a class="navbar-brand" href="#page-top">Employee Notification Distributed Publisher-Subscriber</a><h2>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" style="background-color: rgb(56, 108, 145);">
+    <div class="container px-5 d-flex justify-content-center">
+        <a class="navbar-brand" href="#page-top">
+            <h5>Employee Notification Distributed Publisher-Subscriber</h5>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
-
     </div>
 </nav>
+
 
 <div id="input_area">
     <div class="container" style="width:50px;height:50px;">
@@ -146,17 +150,16 @@
       https://hackernoon.com/observer-vs-pub-sub-pattern-50d3b27f838c
       https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern
 -->
-<div class="container">
+<div class="container" style="margin-top: 100px;">
     <div class="row">
 
         <div class="col-md">
-            <h2 style="padding-top: 75px;"> Publishers </h2>
+            <h2 style="padding-top: 75px; font-family: Arial, sans-serif; color: #333;"> Publishers </h2>
             <!-- This division is for adding and removing publishers-->
             <div id='add_rem_pub' class='textbox-design'>
                 <input type='text' class='form-control' placeholder='Publisher Name'>
                 <button type="button" class="btn btn-success  btn-lg">Add</button>
                 <button type="button" class="btn btn-danger  btn-lg">Remove</button>
-
             </div>
             <!-- This division deals with the list of publishers-->
             <div id='list-of-publishers'>
@@ -192,7 +195,7 @@
 
         <!-- this is the division which deals with adding and removing subscribers-->
         <div class="col-md">
-            <h2 style="padding-top: 75px;"> Subscriber </h2>
+            <h2 style="padding-top: 75px; font-family: Arial, sans-serif; color: #333;"> Subscribers </h2>
             <div id='add_rem_sub' class='textbox-design'>
                 <input type='text' class='form-control' placeholder='Subscriber Name'>
                 <button type="button" class="btn btn-success  btn-lg">Add</button>

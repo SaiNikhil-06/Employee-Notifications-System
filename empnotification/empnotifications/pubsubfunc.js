@@ -5,7 +5,7 @@ var Subscriber = (() => {
     var frame = html.html();
 
     //tying button clicks with actions
-    html.delegate("button", "click", TopicSubscribed);
+    html.on("click", "button", TopicSubscribed);
 
     // setup function invoked from publishsubscribe.js
     actions.setup("notify", send_to_subscriber);
@@ -105,7 +105,7 @@ var Subscriber = (() => {
     var frame = html.html();
 
     //tying button clicks with actions
-    html.delegate("button", "click", push_action);
+    html.on("click", "button", push_action);
 
     render();
 
@@ -127,7 +127,7 @@ var Subscriber = (() => {
     var html = $("#add_rem_sub");
 
     //tying button clicks with actions
-    html.delegate("button", "click", push_action);
+    html.on("click", "button", push_action);
 
     render();
 
@@ -153,7 +153,7 @@ var Publisher = (() => {
     var frame = html.html();
 
     //tying button clicks with actions
-    html.delegate("button", "click", TopicPosted);
+    html.on("click", "button", TopicPosted);
 
     //tying actions for publishers
     actions.setup("add_publisher", insert);
