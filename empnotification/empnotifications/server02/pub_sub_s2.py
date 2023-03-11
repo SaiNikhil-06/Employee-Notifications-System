@@ -12,7 +12,7 @@ topics = ['Human Resources','Design','Operations']
 subscriptions = {}
 generatedEvents = dict()
 flags = dict()
-events = { 'Human Resources' : ['The impact of remote working on employee engagement', 'Upcoming webinar on best practices for performance management','How to improve diversity and inclusion in your workplace','How to create effective onboarding programs for new employees'],
+events = { 'Human Resources' : ['The impact of remote work on employee engagement', 'Upcoming webinar on best practices for performance management','How to improve diversity and inclusion in your workplace','How to create effective onboarding programs for new employees'],
     'Design' : ['New design tools now available for creating interactive prototypes', 'The role of design in building brand identity and recognition','Case study: how we improved user engagement with redesign of our website','Upcoming workshop on design thinking and innovation'],
     'Operations' : ['How to streamline your supply chain for maximum efficiency','Upcoming webinar on the latest trends in logistics and transportation','The role of operations in sustainability and corporate social responsibility','How to create effective process improvement initiatives']
 }
