@@ -22,7 +22,7 @@ def threadedClient(connection, data):
     while True:
         flags[data] = 0
         subscribe(data)
-        subscriptionInfo = 'Your subscriptions are : ' + str(subscriptions[data])
+        subscriptionInfo = 'Your topic subscriptions are : ' + str(subscriptions[data])
         connection.send(subscriptionInfo.encode())
 
         while True:
@@ -35,7 +35,7 @@ def threadedServerSender(connection, data):
     while True:
         flags[data] = 0
         subscriptions[data] = topics
-        subscriptionInfo = 'Your subscriptions are : ' + str(subscriptions[data])
+        subscriptionInfo = 'Your topic subscriptions are : ' + str(subscriptions[data])
         connection.send(subscriptionInfo.encode())
         
         while True:

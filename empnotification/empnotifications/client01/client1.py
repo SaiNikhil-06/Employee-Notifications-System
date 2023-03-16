@@ -1,11 +1,13 @@
 ## The Following are used to import various modules that we can use in the application.
 import sys
 import socket
+import os
 
 ##declares a function called Main
 def Main():
 
-    host = 'server001'
+   
+    host = os.environ.get("SERVER_HOST", "server001")  # Change this line
     port =  5040 
     subscriberName = str(sys.argv[1])
     print("Subscriber is :",subscriberName) 
@@ -23,4 +25,4 @@ def Main():
         print(data)
 ##Overall, this code sets up a client to connect to a server over TCP/IP using sockets, sends the subscriber's name to the server, and receives messages from the server to be printed to the console.
 if __name__ == '__main__':
-    Main() 
+    Main()

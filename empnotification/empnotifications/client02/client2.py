@@ -1,6 +1,7 @@
 ## The Following are used to import various that we can use in the application.
 import sys
 import socket
+import os
 
 ##declares a function called Main
 '''
@@ -13,12 +14,12 @@ In the first iteration of the loop, it sends the subscriber name to the server.
 The data received from the server is decoded from bytes to a string using the decode() method and printed to the console using the print() function
 '''
 def Main():
-    host = 'server002'
-    port =  5041
+    host = os.environ.get("SERVER_HOST", 'server002')
+    port =  5041 
     subscriberName = str(sys.argv[1])
-    print("Subscriber is :",subscriberName)
-    soc = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    soc.connect((host,port))
+    print("Subscriber is :",subscriberName) 
+    s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    s.connect((host,port))
     flag = True
     while True:
         if flag:
@@ -29,4 +30,4 @@ def Main():
 
 ##This code assumes that the server is already running and listening on the specified host and port. It also assumes that the server and client are using the same protocol for sending and receiving data
 if __name__ == '__main__':
-    Main() ##Calling the main fuction
+    Main()
