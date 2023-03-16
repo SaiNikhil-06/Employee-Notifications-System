@@ -1,3 +1,4 @@
+## we had imported various modules inside the application 
 import socket
 import sys
 import random
@@ -16,7 +17,7 @@ events = { 'Human Resources' : ['The impact of remote work on employee engagemen
     'Design' : ['New design tools now available for creating interactive prototypes', 'The role of design in building brand identity and recognition','Case study: how we improved user engagement with redesign of our website','Upcoming workshop on design thinking and innovation'],
     'Operations' : ['How to streamline your supply chain for maximum efficiency','Upcoming webinar on the latest trends in logistics and transportation','The role of operations in sustainability and corporate social responsibility','How to create effective process improvement initiatives']
 }
-
+##This code defines a function that handles a threaded client connection and continuously subscribes to updates for a specified data, notifying the client when an update is received.
 def threadedClient(connection, data):
     while True:
         flags[data] = 0
@@ -29,7 +30,7 @@ def threadedClient(connection, data):
                 notify(connection,data)
 
     connection.close()
-
+##This is a threaded server function that sends subscription information to a client and waits for notifications on the specified topics.
 def threadedServerSender(connection, data):
     while True:
         flags[data] = 0
@@ -45,13 +46,13 @@ def threadedServerSender(connection, data):
 def threadedServerReceiver(connection, data):
     while True:
         serverData = connection.recv(2048).decode()
-        m = serverData.split('-')
-        if len(m)==2:
-            topic = m[0]
-            event = m[1]
+        m1= serverData.split('-')
+        if len(m1)==2:
+            topic = m1[0]
+            event = m1[1]
             publish(topic,event,0)
     connection.close()
-
+##This code defines a function that continuously sends a message containing a list of subscribed topics to a socket, and waits for a notification to send a message to the same socket.
 def threadedMasterSender(ss):
     while True:
         flags['master'] = 0
@@ -63,12 +64,13 @@ def threadedMasterSender(ss):
                 notify(ss,'master')
     ss.close()
 
+##This code defines a function that continuously receives data from a server, splits the data into topic and event, and publishes the event to subscribers of the given topic.
 def threadedMasterReceiver(ss):
     while True:
-        serverData = ss.recv(2048).decode()
-        if serverData:
-            print("Received from MASTER :",serverData)
-            p = serverData.split('-')
+        serverD = ss.recv(2048).decode()
+        if serverD:
+            print("Received from MASTER :",serverD)
+            p = serverD.split('-')
             if len(p)==2:
                 topic = p[0]
                 event = p[1]
@@ -79,12 +81,16 @@ def threadedMasterReceiver(ss):
 def subscribe(name):
     subscriptions[name] = ['Design','Operations']
 
+##This code defines a function that randomly selects a topic from a list, then randomly selects an event message from the corresponding list of events for that topic, and publishes the event with a quality of service of 1.
 def eventGenerator():
     
-    topic = random.choice(topics)
-    msgList = events[topic]
+    topic1 = random.choice(topics)
+
+    msgList = events[topic1]
+
     event = msgList[random.choice(list(range(1,len(msgList))))]
-    publish(topic,event,1)
+
+    publish(topic1,event,1)
 
 
 def publish(topic,event,indicator):
@@ -112,7 +118,7 @@ def publish(topic,event,indicator):
     t = Timer(random.choice(list(range(30,36))), eventGenerator)
     t.start()
 
-
+##This Dockerfile specifies a Python 3.6.4-slim base image, copies the current directory into a new directory called "server02" inside the container, sets the default command to run "pub_sub_s2.py" with the argument "s-server2" using Python, and exposes port 5041 for the container.
 def notify(connection,name):
     if name in generatedEvents.keys():
         for msg in generatedEvents[name]:
@@ -121,7 +127,7 @@ def notify(connection,name):
         del generatedEvents[name]
         flags[name] = 0
 
-
+#The Below function is the main that is goiing to execute the whole function
 def Main():    
     host = ""
     port = 5041

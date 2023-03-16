@@ -1,4 +1,5 @@
 // Functions created for altering and setting up events
+//These are the various functions used
 var actions = {
     actions: {},
     alter: (action_name, fact) => {

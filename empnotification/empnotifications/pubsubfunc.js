@@ -54,14 +54,14 @@ var Subscriber = (() => {
 
         alert(name + " is not present in list. Please check the name again");
     }
-
+//Function to update changes
     function updateChanges() {
         facts = {
             list_of_subscribers: list_of_subscribers,
         };
         html.html(Mustache.render(frame, facts));
     }
-
+//Function to send messages from the subscriber
     function send_to_subscriber(facts) {
         list_of_subscribers.forEach(function (sub, array_position) {
             sub.TopicNames = sub.TopicNames || [];

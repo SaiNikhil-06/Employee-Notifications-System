@@ -42,6 +42,7 @@
 
 
     .subscriber{
+        margin-top: 20%;
 
       border:3px solid gray;
       width:300px;
@@ -158,10 +159,24 @@
             <!-- This division is for adding and removing publishers-->
             <div id='add_rem_pub' class='textbox-design'>
                 <input type='text' class='form-control' placeholder='Publisher Name'>
-                <button type="button" class="btn btn-success  btn-lg">Add</button>
-                <button type="button" class="btn btn-danger  btn-lg">Remove</button>
+                <button type="button" class="btn btn-success  btn-lg" style=" background:blue;">Add</button>
+                <button type="button" class="btn btn-danger  btn-lg" style=" background:blue;">Remove</button>
             </div>
             <!-- This division deals with the list of publishers-->
+            <h2 style="padding-top: 75px; font-family: Arial, sans-serif; color: #333;"> Subscribers </h2>
+            <div id='add_rem_sub' class='textbox-design'>
+                <input type='text' class='form-control' placeholder='Subscriber Name'>
+                <button type="button" class="btn btn-success  btn-lg" style=" background:blue;">Add</button>
+                <button type="button" class="btn btn-danger  btn-lg" style=" background:blue;">Remove</button>
+            </div>
+            
+        </div>
+
+
+        <!-- this is the division which deals with adding and removing subscribers-->
+        <div class="col-md">
+            
+           
             <div id='list-of-publishers'>
                 {{#list_of_publishers}}
                 <!-- This is an array, so we need to access it through sections.
@@ -174,7 +189,7 @@
                     <h5>{{name}}</h5>
                     <input type='text' class='form-control' placeholder='TopicName'>
                     <textarea class='form-control' placeholder='Your Thoughts'></textarea>
-                    <button class='btn btn-success btn-md'>Publish</button>
+                    <button class='btn btn-success btn-md' style=" background:blue;">Publish</button>
 
                     <!-- Inside publishers array, there is an array of Tweets each of which has a topic name and details.-->
                     <ol>
@@ -190,17 +205,6 @@
                 {{/list_of_publishers}}
                 <br style='clear:both'/>
             </div>
-        </div>
-
-
-        <!-- this is the division which deals with adding and removing subscribers-->
-        <div class="col-md">
-            <h2 style="padding-top: 75px; font-family: Arial, sans-serif; color: #333;"> Subscribers </h2>
-            <div id='add_rem_sub' class='textbox-design'>
-                <input type='text' class='form-control' placeholder='Subscriber Name'>
-                <button type="button" class="btn btn-success  btn-lg">Add</button>
-                <button type="button" class="btn btn-danger  btn-lg">Remove</button>
-            </div>
             <!-- this is the division which deals with the list of subscribers-->
             <div id='list-of-subscribers'>
                 <!-- We need to access subscribers array through sections -->
@@ -209,7 +213,7 @@
                 <div class='subscriber'>
                     <h5>{{name}}</h5> <!-- The names are variables-->
                     <input type='text' class='form-control' placeholder='Your Topic of Interest'>
-                    <button type="button" class="btn btn-success  btn-md">Subscribe</button>
+                    <button type="button" class="btn btn-success  btn-md" style=" background:blue;" >Subscribe</button>
                     <br><br>
                     <h7>Subscriptions</h7>
                     <ol class='TopicNames'>

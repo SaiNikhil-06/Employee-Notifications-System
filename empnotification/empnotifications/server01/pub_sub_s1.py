@@ -1,3 +1,4 @@
+# The below modules are imported to make them work within the application
 import socket
 import sys
 import random
@@ -16,7 +17,7 @@ events = { 'Technology' : ['New artificial intelligence tool now available for d
 
 generatedEvents = dict()
 flags = dict()
-
+##This code defines a function named "threadedClient" that continuously sends subscription information to a client over a network connection and notifies the client whenever there is new data available based on flags set in the subscriptions dictionary until the connection is closed.
 def threadedClient(connection, data):
     while True:
         flags[data] = 0
@@ -29,6 +30,7 @@ def threadedClient(connection, data):
                 notify(connection,data)
     connection.close()
 
+##This code defines a function that sends subscription information to a client over a connection and waits for notifications related to the subscription to be received, which it then sends to the client.
 def threadedServerSender(connection, data):
     while True:
         flags[data] = 0
@@ -40,7 +42,7 @@ def threadedServerSender(connection, data):
             if flags[data]==1:
                 notify(connection,data)
     connection.close()
-
+##This code defines a function named "threadedServerReceiver" that continuously receives data from a server through a connection and publishes it to a specified topic and event using another function named "publish".
 def threadedServerReceiver(connection, data):
     while True:
         serverData = connection.recv(2048).decode()
@@ -54,7 +56,7 @@ def threadedServerReceiver(connection, data):
 def subscribe(name):
     subscriptions[name] = ['Finance']
 
-
+##This code defines a function called "eventGenerator" that selects a random topic from a list of topics, selects a random message related to that topic, and publishes it to a messaging system with a message quality of 1.
 def eventGenerator():
     
     topic = random.choice(topics)
@@ -63,7 +65,7 @@ def eventGenerator():
     
     publish(topic,event,1)
 
-
+##The code defines a function "publish" that generates and distributes events to subscribed clients, and schedules a new event generation timer.
 def publish(topic,event,indicator):
     
     event = topic + ' - ' + event
@@ -90,7 +92,7 @@ def publish(topic,event,indicator):
     t = Timer(random.choice(list(range(20,26))), eventGenerator)
     t.start()
 
-                 
+##This code sends notifications of generated events to a specified connection for a given event name, then removes the event from the list of generated events and sets the corresponding flag to 0.                
 def notify(connection,name):
     if name in generatedEvents.keys():
         for msg in generatedEvents[name]:
@@ -98,7 +100,7 @@ def notify(connection,name):
             connection.send(msg.encode())
         del generatedEvents[name]
         flags[name] = 0
-
+##This is the main function that is going to be executed
 def Main():
     
     host = "" 
@@ -111,7 +113,7 @@ def Main():
     
     t = Timer(random.choice(list(range(20,26))), eventGenerator)
     t.start()
-    
+##This code creates a server that listens for incoming client connections, receives messages from clients, and spawns threads to handle sending and receiving messages between clients.
     while True:
         
         connection, addr = s.accept() 
