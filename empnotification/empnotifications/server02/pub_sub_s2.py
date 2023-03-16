@@ -1,6 +1,7 @@
 import socket
 import sys
 import random
+import os
 
 from _thread import *
 from threading import Timer
@@ -21,7 +22,7 @@ def threadedClient(connection, data):
     while True:
         flags[data] = 0
         subscribe(data)
-        subscriptionInfo = 'Your subscriptions are : ' + str(subscriptions[data])
+        subscriptionInfo = 'Your topic subscriptions are : ' + str(subscriptions[data])
         connection.send(subscriptionInfo.encode())
         
         while True:
@@ -34,7 +35,7 @@ def threadedServerSender(connection, data):
     while True:
         flags[data] = 0
         subscriptions[data] = topics
-        subscriptionInfo = 'Your subscriptions are : ' + str(subscriptions[data])
+        subscriptionInfo = 'Your topic subscriptions are : ' + str(subscriptions[data])
         connection.send(subscriptionInfo.encode())
         
         while True:
@@ -133,7 +134,7 @@ def Main():
     t = Timer(random.choice(list(range(30,36))), eventGenerator)
     t.start()
 
-    master_host = 'server001'
+    master_host = os.environ.get("MASTER_HOST", 'server001')
     master_port =  5040
 
     serverName = str(sys.argv[1])

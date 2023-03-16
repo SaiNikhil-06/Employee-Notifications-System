@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   server1:
@@ -23,6 +23,18 @@ services:
       - server1
     container_name: server002
 
+  server3:
+    build: ./server03
+    stdin_open: true
+    tty: true
+    ports: 
+      - 5043:5043
+    networks:
+      - pub-sub-distributed-rendezvous
+    depends_on:
+      - server2
+    container_name: server003
+
   client1:
     build: ./client01
     stdin_open: true
@@ -42,6 +54,16 @@ services:
     depends_on:
       - server2
     container_name: client002
+
+  client3:
+    build: ./client03
+    stdin_open: true
+    tty: true    
+    networks:
+      - pub-sub-distributed-rendezvous
+    depends_on:
+      - server3
+    container_name: client003
 
 networks:
   pub-sub-distributed-rendezvous:

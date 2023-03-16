@@ -1,7 +1,7 @@
 {
   "name": "pubsub",
   "version": "1.0.0",
-  "description": "",
+  "description": "pub sub system for employee notifications",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

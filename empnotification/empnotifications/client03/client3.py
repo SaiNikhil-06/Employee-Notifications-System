@@ -3,8 +3,8 @@ import socket
 import os
 
 def Main():
-    host = os.environ.get("SERVER_HOST", 'server002')
-    port =  5041 
+    host = os.environ.get("SERVER_HOST", 'server003')
+    port =  5043 
     subscriberName = str(sys.argv[1])
     print("Subscriber is :",subscriberName) 
     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

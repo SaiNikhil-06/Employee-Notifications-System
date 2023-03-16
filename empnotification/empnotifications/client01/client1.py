@@ -1,8 +1,9 @@
 import sys
 import socket
+import os
 
 def Main():
-    host = 'server001'
+    host = os.environ.get("SERVER_HOST", "server001")  # Change this line
     port =  5040 
     subscriberName = str(sys.argv[1])
     print("Subscriber is :",subscriberName) 
@@ -17,4 +18,4 @@ def Main():
         print(data)
 
 if __name__ == '__main__':
-    Main() 
+    Main()

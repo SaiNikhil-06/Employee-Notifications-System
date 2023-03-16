@@ -1,32 +1,34 @@
 import socket
 import sys
 import random
+import os
 
 from _thread import *
 from threading import Timer
 
 userList = []
 Employeetopics = ['Technology','Finance','Marketing','Human Resources','Design','Operations']
-topics = ['Technology','Finance','Marketing']
-subscriptions = {}
-events = { 'Technology' : ['New artificial intelligence tool now available for data analysis', '5 reasons why you should use cloud computing in your business', 'Upcoming webinar on the latest trends in software development','How blockchain is revolutionizing supply chain management'],
-    'Finance' : ['Stock market report: record highs for tech companies', 'How to make the most of your retirement savings','Upcoming conference on investment opportunities in emerging markets','The importance of financial planning for small businesses'],
-    'Marketing' : ['How to create an effective social media marketing strategy','New trends in influencer marketing you need to know about','Upcoming conference on the future of digital marketing','The role of customer experience in brand loyalty']
-}
+topics = ['Human Resources','Design','Operations']
 
+subscriptions = {}
 generatedEvents = dict()
 flags = dict()
+events = { 'Human Resources' : ['The impact of remote work on employee engagement', 'Upcoming webinar on best practices for performance management','How to improve diversity and inclusion in your workplace','How to create effective onboarding programs for new employees'],
+    'Design' : ['New design tools now available for creating interactive prototypes', 'The role of design in building brand identity and recognition','Case study: how we improved user engagement with redesign of our website','Upcoming workshop on design thinking and innovation'],
+    'Operations' : ['How to streamline your supply chain for maximum efficiency','Upcoming webinar on the latest trends in logistics and transportation','The role of operations in sustainability and corporate social responsibility','How to create effective process improvement initiatives']
+}
 
 def threadedClient(connection, data):
     while True:
         flags[data] = 0
         subscribe(data)
-        subscriptionInfo = 'Your topic subscriptions are : ' + str(subscriptions[data])
+        subscriptionInfo = 'Your subscriptions are : ' + str(subscriptions[data])
         connection.send(subscriptionInfo.encode())
-
+        
         while True:
             if flags[data]==1:
                 notify(connection,data)
+
     connection.close()
 
 def threadedServerSender(connection, data):
@@ -51,23 +53,44 @@ def threadedServerReceiver(connection, data):
             publish(topic,event,0)
     connection.close()
 
-def subscribe(name):
-    subscriptions[name] = ['Finance']
+def threadedMasterSender(ss):
+    while True:
+        flags['master'] = 0
+        subscriptions['master'] = topics
+        subscriptionInfo = 'Your topic subscriptions are : ' + str(subscriptions['master'])
+        ss.send(subscriptionInfo.encode())
+        while True:
+            if flags['master']==1:
+                notify(ss,'master')
+    ss.close()
 
+def threadedMasterReceiver(ss):
+    while True:
+        serverData = ss.recv(2048).decode()
+        if serverData:
+            print("Received from MASTER :",serverData)
+            p = serverData.split('-')
+            if len(p)==2:
+                topic = p[0]
+                event = p[1]
+                publish(topic,event,0)
+    connection.close()
+
+
+def subscribe(name):
+    subscriptions[name] = ['Operations']
 
 def eventGenerator():
     
     topic = random.choice(topics)
     msgList = events[topic]
     event = msgList[random.choice(list(range(1,len(msgList))))]
-    
     publish(topic,event,1)
 
 
 def publish(topic,event,indicator):
     
     event = topic + ' - ' + event
-    
     if indicator == 1:
         for name, topics in subscriptions.items() :
             if topic in topics:
@@ -79,18 +102,18 @@ def publish(topic,event,indicator):
 
     else:
         for name, topics in subscriptions.items() :
-            if name in userList: # only for clients
+            if name in userList:
                 if topic in topics:
                     if name in generatedEvents.keys():
                         generatedEvents[name].append(event)
                     else:
-                        generatedEvents.setdefault(name, []).append(event)
+                            generatedEvents.setdefault(name, []).append(event)
                     flags[name] = 1
 
-    t = Timer(random.choice(list(range(20,26))), eventGenerator)
+    t = Timer(random.choice(list(range(30,36))), eventGenerator)
     t.start()
 
-                 
+
 def notify(connection,name):
     if name in generatedEvents.keys():
         for msg in generatedEvents[name]:
@@ -99,29 +122,42 @@ def notify(connection,name):
         del generatedEvents[name]
         flags[name] = 0
 
-def Main():
-    
-    host = "" 
-    port = 5040
+
+def Main():    
+    host = ""
+    port = 5043
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     s.bind((host,port))
     print("Socket is bind to the port :", port)
     s.listen(5)
     print("Socket is now listening for new connection ...")
-    
-    t = Timer(random.choice(list(range(20,26))), eventGenerator)
+    t = Timer(random.choice(list(range(30,36))), eventGenerator)
     t.start()
+
+    master_host = os.environ.get("MASTER_HOST", 'server001')
+    master_port =  5040
+
+    serverName = str(sys.argv[1])
+    
+    ss = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    ss.connect((master_host,master_port))
+    
+    ss.send(serverName.encode())
+    
+    start_new_thread(threadedMasterReceiver, (ss,))
+    start_new_thread(threadedMasterSender, (ss,))
     
     while True:
         
-        connection, addr = s.accept() 
+        connection, addr = s.accept()
         print('Connected to :', addr[0], ':', addr[1])
-        data = connection.recv(2048).decode()
-
-        if data:
-            print("Welcome ", data)
-        l = data.split('-')
+        #print("Connection string is",connection)
         
+        data = connection.recv(2048).decode()
+        
+        if data:
+            print("Welcome ",data)
+        l = data.split('-')
         if l[0]=='c':
             userList.append(l[1])
             start_new_thread(threadedClient, (connection,l[1]))
@@ -132,4 +168,4 @@ def Main():
     s.close()
 
 if __name__ == '__main__':
-    Main() 
+    Main()
