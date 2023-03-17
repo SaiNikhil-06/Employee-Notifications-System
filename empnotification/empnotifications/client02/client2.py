@@ -23,9 +23,9 @@ def Main():
     flag = True
     while True:
         if flag:
-            soc.send(subscriberName.encode())
+            s.send(subscriberName.encode())
             flag = False
-        data = soc.recv(2048).decode()
+        data = s.recv(2048).decode()
         print(data)
 
 ##This code assumes that the server is already running and listening on the specified host and port. It also assumes that the server and client are using the same protocol for sending and receiving data
