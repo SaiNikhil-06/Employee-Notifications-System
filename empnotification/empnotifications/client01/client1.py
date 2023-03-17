@@ -5,13 +5,7 @@ import os
 
 ##declares a function called Main
 def Main():
-<<<<<<< HEAD
-
-   
-    host = os.environ.get("SERVER_HOST", "server001")  # Change this line
-=======
     host = os.environ.get("SERVER_HOST", "server001") 
->>>>>>> 925f743 (Changes)
     port =  5040 
     subscriberName = str(sys.argv[1])
     print("Subscriber is :",subscriberName) 
