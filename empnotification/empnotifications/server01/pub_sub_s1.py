@@ -42,6 +42,7 @@ def threadedServerSender(connection, data):
             if flags[data]==1:
                 notify(connection,data)
     connection.close()
+
 ##This code defines a function named "threadedServerReceiver" that continuously receives data from a server through a connection and publishes it to a specified topic and event using another function named "publish".
 def threadedServerReceiver(connection, data):
     while True:
@@ -53,6 +54,69 @@ def threadedServerReceiver(connection, data):
             publish(topic,event,0)
     connection.close()
 
+def threadedServerReceiver(connection, data, server_id, neighbors):
+    global currentLeader
+    while True:
+        serverData = connection.recv(2048).decode()
+        m = serverData.split("-")
+
+        if len(m) == 2:
+            if m[0] == "leader":
+                print(f"Server {server_id} received leader election message: {m}")
+                received_priority = int(m[1])
+
+                if received_priority != server_id:
+                    if received_priority > currentLeader:
+                        currentLeader = received_priority
+
+                    # Forward the election message to the next server in the neighbors list
+                    next_server = neighbors[server_id]
+                    next_server.send(serverData.encode())
+
+                if received_priority == currentLeader:
+                    print(f"Server {server_id} elected as a leader")
+
+            else:
+                topic = m[0]
+                event = m[1]
+                publish(topic, event, e)
+
+import time
+
+
+def threadedServerSender(connection, server_id, neighbors):
+    global currentLeader
+    while True:
+        # Initiating the leader election process
+        if currentLeader is None:
+            print(f"Server {server_id} initiating leader election")
+            election_message = f"leader-{server_id}"
+            next_server = neighbors[server_id]
+            next_server.send(election_message.encode())
+            time.sleep(2)  # Sleep for 2 seconds before the next iteration
+
+        # Sending published events
+        else:
+            # Randomly select a topic and an event
+            topic, event = get_random_topic_and_event()
+
+            # Send the event to the current leader
+            event_message = f"{topic}-{event}"
+            leader_connection = neighbors[currentLeader]
+            leader_connection.send(event_message.encode())
+            time.sleep(5) 
+
+def get_random_topic_and_event():
+    # Define your own logic for selecting a random topic and event
+    # For demonstration purposes, we will u‹se dummy values
+    topics = ["Finance", "Human Resources", "Design", "Operations", "Technology"]
+    events = ["Update 1", "Update 2", "Update 3"]
+
+    import random
+    topic = random.choice(topics)
+    event = random.choice(events)
+
+    return topic, event
 def subscribe(name):
     subscriptions[name] = ['Finance']
 
